@@ -24,7 +24,7 @@ function initMap() {
 }
 
 function getPoints() {
-    data = [new google.maps.LatLng(37.751266, -122.403355)];
+    data = [];
     JSONObjects = JSON.parse(Get(window.location.href + 'reports/reports/'));
     for (index = 0; index < JSONObjects.length; index++) {
         data.push(new google.maps.LatLng(JSONObjects[index].latitude, JSONObjects[index].longitude))
