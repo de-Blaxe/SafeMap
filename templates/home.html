@@ -2,15 +2,17 @@
 {% load static %}
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <title>SafeMap</title>
-        <link rel = "stylesheet" type = "text/css"
-              href="{% static "/css/style.css" %}">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <title>SafeMap</title>
+    <link rel="stylesheet" type="text/css" href="{% static "/css/style.css" %}">
+    <link rel="icon" href="knife.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round&display=swap" rel="stylesheet" rel="stylesheet">
+</head>
 
-    <body ng-app="safeBoard.demo">
-        <h1 id="title">Keep Yourself Safe</h1>
+<body ng-app="safeBoard.demo">
+    <h1 id="title">Keep Yourself Safe</h1>
     <script>
         angular.module('sample', [])
             .controller('sampleController', ['$scope', '$http', function ($scope, $http) {
@@ -27,17 +29,16 @@
                         firstname: 'Usain Bolt',
                         color: 'red'
                     }];
-                $scope.add = function()
             }]);
     </script>
     <script>
-        angular.module('heatmap',['ngRoute'])
-            .controller('heatmapController',['$scope', '$http', heatmapController]);
+        angular.module('heatmap', ['ngRoute'])
+            .controller('heatmapController', ['$scope', '$http', heatmapController]);
 
         function heatmapController($scope, $http) {
             $scope.records = [];
-            $http.get('/reports/reports/').then(function(response){
-            $scope.data = response.data;
+            $http.get('/reports/reports/').then(function (response) {
+                $scope.data = response.data;
             });
         }
 
@@ -76,17 +77,12 @@
     <div id="myModal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
-        <div class="modal-header">
-            <span class="close">&times;</span>
-            <h2>Report incident...</h2>
-        </div>
-        <div class="modal-body">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Report incident...</h2>
+            </div>
+            <!-- <div class="modal-body">
             <p style="margin-bottom: 2px;">Incident date</p>
-            <!-- <p id="date">
-                <script>
-                    document.getElementById("date").innerHTML = Date();
-                </script>
-            </p> -->
             <script>
                 document.getElementById('datePicker').valueAsDate = new Date();
             </script>
@@ -100,51 +96,106 @@
             </select>
             <p style="margin-bottom: 0px; margin-top: 10px;">Incident details</p>
             <textarea maxlength="255" rows="8" cols="60" placeholder="Describe what happened... (max. 255 characters)"></textarea>
-        </div>
-        <!-- <div class="modal-footer">
+        </div> -->
+            <form action="/reports/reports/" method="POST" enctype="multipart/form-data" class="form-horizontal"
+                novalidate="">
+                <fieldset>
+                    <!-- <input type="hidden" name="csrfmiddlewaretoken" value="ek2lY3ZCptuaKNyg09MogqyY6nZC3oA3YoCGBxhqVINe8R2zcdvIVdzTznzaqj5w"> -->
+                    <div class="form-group ">
+                        <label class="col-sm-2 control-label ">
+                            Category
+                        </label>
+                        <div class="col-sm-10">
+                            <input name="category" class="form-control" type="text" value="">
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label class="col-sm-2 control-label ">
+                            2020-01-19 19:02:08.141988+00:00
+                        </label>
+                        <div class="col-sm-10">
+                            <input name="post_date" class="form-control" type="datetime-local" value="">
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label class="col-sm-2 control-label ">
+                            Details
+                        </label>
+                        <div class="col-sm-10">
+                            <input name="details" class="form-control" type="text" value="">
+                        </div>
+                    </div>
+                    <div class="form-group horizontal-checkbox ">
+                        <label class="col-sm-2 control-label ">
+                            IsVerified
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" name="isVerified" value="true">
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label class="col-sm-2 control-label ">
+                            Latitude
+                        </label>
+                        <div class="col-sm-10">
+                            <input name="latitude" class="form-control" type="number" value="">
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label class="col-sm-2 control-label ">
+                            Longitude
+                        </label>
+                        <div class="col-sm-10">
+                            <input name="longitude" class="form-control" type="number" value="">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary js-tooltip" title=""
+                            data-original-title="Make a POST request on the Report List resource">POST</button>
+                    </div>
+                </fieldset>
+            </form>
+            <!-- <div class="modal-footer">
             <h3>Modal Footer</h3>
         </div> -->
         </div>
     </div>
     <script>
-    // Get the modal
-    var modal = document.getElementById("myModal");
+        // Get the modal
+        var modal = document.getElementById("myModal");
 
-    // Get the button that opens the modal
-    var btn = document.getElementById("myBtn");
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
 
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
 
-    // When the user clicks the button, open the modal
-    btn.onclick = function() {
-        modal.style.display = "block";
-    };
+        // When the user clicks the button, open the modal
+        btn.onclick = function () {
+            modal.style.display = "block";
+        };
 
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-        modal.style.display = "none";
-    };
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        };
 
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == modal) {
-        modal.style.display = "none";
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
         }
-    }
     </script>
-
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular-route.js"></script>
     <script src="{% static "js/home.config.js"%}"></script>
     <script src="{% static "js/home.js"%}"></script>
-
-        <!-- 
+    <!-- 
 	<script src="{% static "js/scrumboard.config.js" %}"></script>
         <script src="{% static "js/card.directive.js" %}"></script>
         <script src="{% static "js/login.controller.js" %}"></script>
 	-->
+</body>
 
-
-    </body>
 </html>
