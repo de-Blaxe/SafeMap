@@ -4,17 +4,141 @@
 
     <head>
         <meta charset="UTF-8">
-        <title>SafeBoard</title>
+        <title>SafeMap</title>
         <link rel = "stylesheet" type = "text/css"
               href="{% static "/css/style.css" %}">
     </head>
 
     <body ng-app="safeBoard.demo">
-        <ng-view></ng-view>
+        <h1 id="title">Keep Yourself Safe</h1>
+    <script>
+        angular.module('sample', [])
+            .controller('sampleController', ['$scope', '$http', function ($scope, $http) {
+                $scope.users = [
+                    {
+                        firstname: 'Not at all',
+                        color: 'green'
+                    },
+                    {
+                        firstname: 'Brisk pace',
+                        color: 'yellow'
+                    },
+                    {
+                        firstname: 'Usain Bolt',
+                        color: 'red'
+                    }];
+                $scope.add = function()
+            }]);
+    </script>
+    <script>
+        angular.module('heatmap',['ngRoute'])
+            .controller('heatmapController',['$scope', '$http', heatmapController]);
 
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular-route.js"></script>
-        <script src="{% static "js/code.js"%}"></script>
+        function heatmapController($scope, $http) {
+            $scope.records = [];
+            $http.get('/reports/reports/').then(function(response){
+            $scope.data = response.data;
+            });
+        }
+
+    </script>
+    <div ng-app="sample">
+        <div class="sample ten">
+            <input type="text" name="search" ng-model="search.$" placeholder="Search incidents...">
+            <button type="submit" class="btn btn-search">
+                <i class="fa fa-search"></i>
+            </button>
+            <!-- <button type="reset" class="btn btn-reset fa fa-times"></button> -->
+        </div>
+        <table id="legend" ng-controller="sampleController">
+            <thead>
+                <tr>
+                    <th>How Fast To Run:</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="user in users | filter:search">
+                    <td ng-style="{'color': user.color}">{{user.firstname}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Trigger/Open The Modal -->
+    <div id="myBtn" style="width:100%">
+        <button>Report incident</button>
+    </div>
+    <div id="map"></div>
+    <script src="{% static "js/code.js"%}"></script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNx124AHa7QKmx_9ZvxV1ukMKaVaxIUIo&libraries=visualization&callback=initMap">
+        </script>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+        <div class="modal-header">
+            <span class="close">&times;</span>
+            <h2>Report incident...</h2>
+        </div>
+        <div class="modal-body">
+            <p style="margin-bottom: 2px;">Incident date</p>
+            <!-- <p id="date">
+                <script>
+                    document.getElementById("date").innerHTML = Date();
+                </script>
+            </p> -->
+            <script>
+                document.getElementById('datePicker').valueAsDate = new Date();
+            </script>
+            <input type="date" id="datePicker" style="margin-bottom: 10px;">
+            <p style="margin-bottom: 0; margin-top: 40px;">Incident type</p>
+            <select>
+                <option>Select...</option>
+                <option>Robbery</option>
+                <option>Murder</option>
+                <option>Other</option>
+            </select>
+            <p style="margin-bottom: 0px; margin-top: 10px;">Incident details</p>
+            <textarea maxlength="255" rows="8" cols="60" placeholder="Describe what happened... (max. 255 characters)"></textarea>
+        </div>
+        <!-- <div class="modal-footer">
+            <h3>Modal Footer</h3>
+        </div> -->
+        </div>
+    </div>
+    <script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function() {
+        modal.style.display = "block";
+    };
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+        modal.style.display = "none";
+        }
+    }
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular-route.js"></script>
+    <script src="{% static "js/home.config.js"%}"></script>
+    <script src="{% static "js/home.js"%}"></script>
+
         <!-- 
 	<script src="{% static "js/scrumboard.config.js" %}"></script>
         <script src="{% static "js/card.directive.js" %}"></script>
