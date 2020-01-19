@@ -43,27 +43,6 @@
         }
 
     </script>
-    <div ng-app="sample">
-        <div class="sample ten">
-            <input type="text" name="search" ng-model="search.$" placeholder="Search incidents...">
-            <button type="submit" class="btn btn-search">
-                <i class="fa fa-search"></i>
-            </button>
-            <!-- <button type="reset" class="btn btn-reset fa fa-times"></button> -->
-        </div>
-        <table id="legend" ng-controller="sampleController">
-            <thead>
-                <tr>
-                    <th>How Fast To Run:</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="user in users | filter:search">
-                    <td ng-style="{'color': user.color}">{{user.firstname}}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
     <!-- Trigger/Open The Modal -->
     <div id="myBtn" style="width:100%">
         <button>Report incident</button>
